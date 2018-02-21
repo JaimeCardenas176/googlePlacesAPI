@@ -104,14 +104,13 @@ public class GoogleAutoCompleteAdapter extends BaseAdapter implements Filterable
             Response<PredictionResult> response = call.execute();
 
             if (response.isSuccessful()) {
-                if ("OK".equalsIgnoreCase(response.body().getStatus()))
+                if ("todo OK".equalsIgnoreCase(response.body().getStatus()))
                     result = response.body().getPredictions();
             }
 
-            //TODO Manejo de errores
 
         } catch (IOException e) {
-            //TODO Manejo de la excepción
+
             e.printStackTrace();
         }
 

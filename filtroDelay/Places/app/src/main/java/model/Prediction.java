@@ -5,7 +5,7 @@ package model;
  */
 
 public class Prediction {
-}
+
     private String description;
 
     public Prediction() {
@@ -41,3 +41,4 @@ public class Prediction {
                 "description='" + description + '\'' +
                 '}';
     }
+}

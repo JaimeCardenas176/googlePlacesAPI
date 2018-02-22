@@ -1,8 +1,9 @@
 
-package model.forecastOpenWeather;
+package model.currentWeather;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 
 public class Weather {
 
@@ -72,5 +73,6 @@ public class Weather {
     public void setIcon(String icon) {
         this.icon = icon;
     }
+
 
 }

@@ -1,5 +1,5 @@
 
-package model.forecastOpenWeather;
+package model.forecastWeather;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -29,7 +29,7 @@ public class Main {
     private Long humidity;
     @SerializedName("temp_kf")
     @Expose
-    private Double tempKf;
+    private Long tempKf;
 
     /**
      * No args constructor for use in serialization
@@ -49,7 +49,7 @@ public class Main {
      * @param tempKf
      * @param tempMin
      */
-    public Main(Double temp, Double tempMin, Double tempMax, Double pressure, Double seaLevel, Double grndLevel, Long humidity, Double tempKf) {
+    public Main(Double temp, Double tempMin, Double tempMax, Double pressure, Double seaLevel, Double grndLevel, Long humidity, Long tempKf) {
         super();
         this.temp = temp;
         this.tempMin = tempMin;
@@ -117,11 +117,11 @@ public class Main {
         this.humidity = humidity;
     }
 
-    public Double getTempKf() {
+    public Long getTempKf() {
         return tempKf;
     }
 
-    public void setTempKf(Double tempKf) {
+    public void setTempKf(Long tempKf) {
         this.tempKf = tempKf;
     }
 

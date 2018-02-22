@@ -1,6 +1,7 @@
 package APIs;
 
-import model.currentOpenWeather.WeatherInfo;
+
+import model.currentWeather.WeatherInfo;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -11,10 +12,10 @@ import retrofit2.http.Query;
 
 public interface OpenWeatherAPI {
     @GET("data/weather/2.5/weather")
-    public Call<WeatherInfo> currentWeahter(@Query("q") String cityName);
+    public Call<WeatherInfo> currentWeahter(@Query("lat") float latitude, @Query("long") float longitude);
 
-    @GET("data/weather/2.5/weather")
-    public Call<WeatherInfo> currentWeahter(@Query("q") String cityName, String countryCode);
+    @GET("data/weather/2.5/forecast")
+    public Call<WeatherInfo> forecastWeahter(@Query("lat") float latitude, @Query("long") float longitude);
 
 
 

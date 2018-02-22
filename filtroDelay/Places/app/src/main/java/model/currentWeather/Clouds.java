@@ -1,8 +1,9 @@
 
-package model.forecastOpenWeather;
+package model.currentWeather;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 
 public class Clouds {
 
@@ -33,5 +34,7 @@ public class Clouds {
     public void setAll(Long all) {
         this.all = all;
     }
+
+
 
 }

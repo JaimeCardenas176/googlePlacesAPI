@@ -1,10 +1,10 @@
 
-package model.forecastOpenWeather;
+package model.forecastWeather;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ForecastInfo {
+public class Forecast {
 
     @SerializedName("cod")
     @Expose
@@ -17,13 +17,16 @@ public class ForecastInfo {
     private Long cnt;
     @SerializedName("list")
     @Expose
-    private java.util.List<WeatherList> list = null;
+    private java.util.List<List> list = null;
+    @SerializedName("city")
+    @Expose
+    private City city;
 
     /**
      * No args constructor for use in serialization
      * 
      */
-    public ForecastInfo() {
+    public Forecast() {
     }
 
     /**
@@ -32,13 +35,15 @@ public class ForecastInfo {
      * @param cnt
      * @param cod
      * @param list
+     * @param city
      */
-    public ForecastInfo(String cod, Double message, Long cnt, java.util.List<WeatherList> list) {
+    public Forecast(String cod, Double message, Long cnt, java.util.List<List> list, City city) {
         super();
         this.cod = cod;
         this.message = message;
         this.cnt = cnt;
         this.list = list;
+        this.city = city;
     }
 
     public String getCod() {
@@ -65,12 +70,20 @@ public class ForecastInfo {
         this.cnt = cnt;
     }
 
-    public java.util.List<WeatherList> getList() {
+    public java.util.List<List> getList() {
         return list;
     }
 
-    public void setList(java.util.List<WeatherList> list) {
+    public void setList(java.util.List<List> list) {
         this.list = list;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 
 }

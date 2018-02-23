@@ -96,7 +96,7 @@ public class GoogleAutoCompleteAdapter extends BaseAdapter implements Filterable
 
         //Generar el servicio
         GooglePlacesAPI api = GooglePlacesServiceGenerator.createService(GooglePlacesAPI.class);
-        //Obtener la petcición
+        //Obtener la petición
         Call<PredictionResult> call = api.autoComplete(text.toString());
 
         //call.enqueue();

@@ -7,6 +7,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.jaime.weatherplaces.APIs.GooglePlacesAPI;
+import com.example.jaime.weatherplaces.APIs.GooglePlacesServiceGenerator;
+import com.example.jaime.weatherplaces.APIs.OpenWeatherAPI;
+import com.example.jaime.weatherplaces.APIs.OpenWeatherServiceGenerator;
+import com.example.jaime.weatherplaces.Utilities.DelayAutoCompleteTextView;
+import com.example.jaime.weatherplaces.Utilities.GoogleAutoCompleteAdapter;
+import com.example.jaime.weatherplaces.model.currentWeather.WeatherInfo;
+
+import retrofit2.Call;
 
 
 /**
@@ -27,7 +39,22 @@ public class CurrentWeatherFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+
+    private Double latitud, longitud;
+
+    //elementos del layout
+    private TextView nombreCiudad, fecha, estado, latitudLongitud, maxima, minima;
+    private ImageView foto, iconMax, iconMin;
+    private DelayAutoCompleteTextView autoCompleteTextView;
+
+
     private OnFragmentInteractionListener mListener;
+
+    public static CurrentWeatherFragment newInstance(){
+        CurrentWeatherFragment fragment = new CurrentWeatherFragment();
+        return fragment;
+
+    }
 
     public CurrentWeatherFragment() {
         // Required empty public constructor
@@ -64,7 +91,27 @@ public class CurrentWeatherFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_current_weather, container, false);
+        View view = inflater.inflate(R.layout.fragment_current_weather, container, false);
+        autoCompleteTextView = view.findViewById(R.id.delayAutoCompleteTextView);
+        autoCompleteTextView.setAdapter(new GoogleAutoCompleteAdapter(getContext()));
+
+        nombreCiudad = view.findViewById(R.id.nombreCiudad);
+        fecha = view.findViewById(R.id.fecha);
+        estado = view.findViewById(R.id.estado);
+        latitudLongitud = view.findViewById(R.id.latitudLongitud);
+
+        foto = view.findViewById(R.id.foto);
+        iconMax = view.findViewById(R.id.iconMax);
+        iconMin = view.findViewById(R.id.iconMin);
+        maxima = view.findViewById(R.id.maxima);
+        minima = view.findViewById(R.id.minima);
+
+        final GooglePlacesAPI googlePlacesApi = GooglePlacesServiceGenerator.createService(GooglePlacesAPI.class);
+        final OpenWeatherAPI openWeatherApi = OpenWeatherServiceGenerator.createService(OpenWeatherAPI.class);
+
+        Call<WeatherInfo> callCurrentWeather = openWeatherApi.currentWeahter();
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

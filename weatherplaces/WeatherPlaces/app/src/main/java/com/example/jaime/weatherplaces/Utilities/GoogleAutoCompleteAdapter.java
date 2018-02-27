@@ -31,6 +31,9 @@ public class GoogleAutoCompleteAdapter extends BaseAdapter implements Filterable
     private Context mContext;
     private List<Prediction> resultlist = new ArrayList<Prediction>();
 
+    public GoogleAutoCompleteAdapter(Context mContext){
+
+    }
 
     @Override
     public int getCount() {

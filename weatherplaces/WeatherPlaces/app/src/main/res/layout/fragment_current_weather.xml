@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/nombreCiudad"
         android:layout_width="138dp"
         android:layout_height="44dp"
         android:layout_marginStart="32dp"
@@ -30,61 +30,61 @@
         app:layout_constraintTop_toBottomOf="@+id/delayAutoCompleteTextView" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/fecha"
         android:layout_width="161dp"
         android:layout_height="22dp"
         android:layout_marginStart="24dp"
         android:text="25/02/2018"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintStart_toEndOf="@+id/nombreCiudad"
+        app:layout_constraintTop_toTopOf="@+id/nombreCiudad" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/estado"
         android:layout_width="161dp"
         android:layout_height="22dp"
         android:layout_marginStart="24dp"
         android:text="nublado"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintBottom_toBottomOf="@+id/nombreCiudad"
+        app:layout_constraintStart_toEndOf="@+id/nombreCiudad"
+        app:layout_constraintTop_toBottomOf="@+id/fecha" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/foto"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginTop="8dp"
         android:src="@mipmap/ic_launcher"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintStart_toStartOf="@+id/nombreCiudad"
+        app:layout_constraintTop_toBottomOf="@+id/latitudLongitud" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/latitudLongitud"
         android:layout_width="323dp"
         android:layout_height="27dp"
         android:text="latitud 122345  longitud 123456"
-        app:layout_constraintEnd_toEndOf="@+id/textView3"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintEnd_toEndOf="@+id/estado"
+        app:layout_constraintStart_toStartOf="@+id/nombreCiudad"
+        app:layout_constraintTop_toBottomOf="@+id/nombreCiudad" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/iconMax"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/ic_launcher_background"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintStart_toEndOf="@+id/foto"
+        app:layout_constraintTop_toBottomOf="@+id/latitudLongitud" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/iconMin"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:src="@drawable/ic_launcher_background"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintStart_toEndOf="@+id/foto"
+        app:layout_constraintTop_toBottomOf="@+id/iconMax" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/maxima"
         android:layout_width="143dp"
         android:layout_height="60dp"
         android:layout_marginEnd="8dp"
@@ -92,13 +92,13 @@
         android:text="Maxima:"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView4"
+        app:layout_constraintEnd_toEndOf="@+id/latitudLongitud"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintStart_toEndOf="@+id/iconMax"
+        app:layout_constraintTop_toBottomOf="@+id/latitudLongitud" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/minima"
         android:layout_width="143dp"
         android:layout_height="60dp"
         android:layout_marginEnd="8dp"
@@ -106,9 +106,9 @@
         android:text="Mínima:"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView4"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintEnd_toEndOf="@+id/latitudLongitud"
+        app:layout_constraintStart_toEndOf="@+id/iconMin"
+        app:layout_constraintTop_toBottomOf="@+id/maxima" />
 
     <TextView
         android:id="@+id/textView7"
@@ -118,9 +118,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/textView5"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintEnd_toEndOf="@+id/maxima"
+        app:layout_constraintStart_toStartOf="@+id/foto"
+        app:layout_constraintTop_toBottomOf="@+id/iconMin" />
 
     <TextView
         android:id="@+id/textView8"

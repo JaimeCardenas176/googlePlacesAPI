@@ -4,9 +4,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,9 +18,15 @@ import com.example.jaime.weatherplaces.APIs.OpenWeatherAPI;
 import com.example.jaime.weatherplaces.APIs.OpenWeatherServiceGenerator;
 import com.example.jaime.weatherplaces.Utilities.DelayAutoCompleteTextView;
 import com.example.jaime.weatherplaces.Utilities.GoogleAutoCompleteAdapter;
+import com.example.jaime.weatherplaces.model.DetailsResult;
+import com.example.jaime.weatherplaces.model.Prediction;
+import com.example.jaime.weatherplaces.model.PredictionResult;
 import com.example.jaime.weatherplaces.model.currentWeather.WeatherInfo;
+import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -56,27 +64,12 @@ public class CurrentWeatherFragment extends Fragment {
 
     }
 
+
     public CurrentWeatherFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CurrentWeatherFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CurrentWeatherFragment newInstance(String param1, String param2) {
-        CurrentWeatherFragment fragment = new CurrentWeatherFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -109,17 +102,72 @@ public class CurrentWeatherFragment extends Fragment {
         final GooglePlacesAPI googlePlacesApi = GooglePlacesServiceGenerator.createService(GooglePlacesAPI.class);
         final OpenWeatherAPI openWeatherApi = OpenWeatherServiceGenerator.createService(OpenWeatherAPI.class);
 
-        Call<WeatherInfo> callCurrentWeather = openWeatherApi.currentWeahter();
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Prediction prediction = (Prediction) autoCompleteTextView.getAdapter().getItem(i);
+                final Call<DetailsResult> callPlaces = googlePlacesApi.getPlaceDetails(prediction.getPlaces_id());
+                getFragmentManager().beginTransaction().detach(CurrentWeatherFragment.this).attach(CurrentWeatherFragment.this).commit();
+                callPlaces.enqueue(new Callback<DetailsResult>() {
+                    @Override
+                    public void onResponse(Call<DetailsResult> call, Response<DetailsResult> response) {
+                        if (response.isSuccessful()){
+                            DetailsResult preRes = response.body();
+                            latitud = preRes.getResult().getGeometry().getLocation().getLat();
+                            longitud = preRes.getResult().getGeometry().getLocation().getLng();
+                            latitudLongitud.setText(String.format("%f, %f",latitud, longitud));
+
+
+                           /* if (preRes.getResult().getPhotos() != null) {
+                                if (!preRes.getResult().getPhotos().isEmpty()) {
+                                    String photo_url = String.format("https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&key=ae48797f317a02e51e943fa3961983c7&photoreference=%s", preRes.getResult().getPhotos().get(0).getUrlFoto());
+                                    Picasso.with(getContext())
+                                            .load(photo_url)
+                                            .into(foto);
+                                }
+
+                            }*/
+
+                                mListener.actualizaCoord(latitud, longitud);
+
+                                Call<WeatherInfo> callCurrentWeather = openWeatherApi.currentWeahterByCoord(latitud,longitud);
+
+                                callCurrentWeather.enqueue(new Callback<WeatherInfo>() {
+                                    @Override
+                                    public void onResponse(Call<WeatherInfo> call, Response<WeatherInfo> response) {
+                                        if (response.isSuccessful()){
+                                            WeatherInfo current = response.body();
+                                            nombreCiudad.setText(current.getName());
+                                            maxima.setText(current.getMain().getTempMax().toString()+"ºC");
+                                            minima.setText(current.getMain().getTempMin().toString()+"ºC");
+                                            Picasso.with(getContext()).load("http://openweathermap.org/img/w/"+current.getWeather().get(0).getIcon()+ ".png").into(foto);
+                                            Log.d("Retrofit OK!", current.toString());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<WeatherInfo> call, Throwable t) {
+                                        Log.d("Fallo",t.getMessage());
+                                    }
+                                });
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<DetailsResult> call, Throwable t) {
+
+                    }
+                });
+
+            }
+        });
 
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -150,6 +198,6 @@ public class CurrentWeatherFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void actualizaCoord(Double latitud, Double longitud);
     }
 }

@@ -1,25 +1,29 @@
 package com.example.jaime.weatherplaces;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jaime.weatherplaces.ForecastWeatherFragment.OnListFragmentInteractionListener;
 import com.example.jaime.weatherplaces.model.forecastWeather.Forecast;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 
 public class MyForecastRecyclerViewAdapter extends RecyclerView.Adapter<MyForecastRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Forecast> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final List<com.example.jaime.weatherplaces.model.forecastWeather.List> mValues;
+    //private final OnListFragmentInteractionListener mListener;
+    private Context context;
 
-    public MyForecastRecyclerViewAdapter(List<Forecast> items, OnListFragmentInteractionListener listener) {
+    public MyForecastRecyclerViewAdapter(List<com.example.jaime.weatherplaces.model.forecastWeather.List> items, Context context) {
         mValues = items;
-        mListener = listener;
+        this.context=context;
     }
 
     @Override
@@ -32,17 +36,17 @@ public class MyForecastRecyclerViewAdapter extends RecyclerView.Adapter<MyForeca
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
+        holder.fechaF.setText(holder.mItem.getDtTxt());
+        Picasso.with(context)
+                .load("http://openweathremap.org/img/w"+holder.mItem.getWeather().get(0).getIcon()+".png")
+        .resize(800,800)
+        .centerCrop()
+        .into(holder.fotoF);
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
-        });
+        holder.humedadF.setText(String.valueOf(holder.mItem.getMain().getHumidity()+"% humedad"));
+        holder.maximaF.setText(holder.mItem.getMain().getTempMax().toString());
+        holder.minimaF.setText(holder.mItem.getMain().getTempMin().toString());
+
     }
 
     @Override
@@ -52,20 +56,27 @@ public class MyForecastRecyclerViewAdapter extends RecyclerView.Adapter<MyForeca
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public Forecast mItem;
+        public final TextView fechaF, maximaF, minimaF, humedadF;
+        public final ImageView fotoF, iconMaxF, iconMinF;
+        public com.example.jaime.weatherplaces.model.forecastWeather.List mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            fechaF = view.findViewById(R.id.fechaForecast);
+            maximaF = view.findViewById(R.id.maximaForecast);
+            minimaF = view.findViewById(R.id.minimaForecast);
+            humedadF = view.findViewById(R.id.humedad);
+            fotoF=view.findViewById(R.id.fotoForecast);
+            iconMaxF = view.findViewById(R.id.iconMaxForecast);
+            iconMinF = view.findViewById(R.id.iconMinforecast);
+
+
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString();
         }
     }
 }

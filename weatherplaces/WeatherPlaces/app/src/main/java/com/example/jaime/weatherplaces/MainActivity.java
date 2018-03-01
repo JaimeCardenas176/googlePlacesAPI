@@ -2,6 +2,7 @@ package com.example.jaime.weatherplaces;
 
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -18,7 +19,7 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CurrentWeatherFragment.OnFragmentInteractionListener{
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    private Double lat, lon;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -86,6 +88,13 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void actualizaCoord(Double latitud, Double longitud) {
+        this.lat = latitud;
+        this.lon = longitud;
+
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -135,13 +144,19 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            if(position==0){
+                miFragment = CurrentWeatherFragment.newInstance();
+            }
+            if(position==1){
+                miFragment = CurrentWeatherFragment.newInstance();
+            }
+            return miFragment;
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 2;
         }
     }
 }

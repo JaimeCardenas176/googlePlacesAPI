@@ -7,6 +7,15 @@ package com.example.jaime.weatherplaces.model;
 public class Prediction {
 
     private String description;
+    private String places_id;
+
+    public String getPlaces_id() {
+        return places_id;
+    }
+
+    public void setPlaces_id(String places_id) {
+        this.places_id = places_id;
+    }
 
     public Prediction() {
 

@@ -9,9 +9,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.jaime.weatherplaces.APIs.OpenWeatherAPI;
+import com.example.jaime.weatherplaces.APIs.OpenWeatherServiceGenerator;
 import com.example.jaime.weatherplaces.model.forecastWeather.Forecast;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A fragment representing a list of Items.
@@ -23,10 +30,16 @@ public class ForecastWeatherFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
+    public static final String LONGITUD="lat";
+    public static final String LATITUD="lon";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
-    private List<Forecast> pronosticos;
+    private Forecast pronosticos;
+    MyForecastRecyclerViewAdapter adaptador;
+
+    private Double mParam1;
+    private Double mParam2;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -37,10 +50,11 @@ public class ForecastWeatherFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static ForecastWeatherFragment newInstance(int columnCount) {
+    public static ForecastWeatherFragment newInstance(Double lat, Double lon) {
         ForecastWeatherFragment fragment = new ForecastWeatherFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putDouble(LATITUD,lat);
+        args.putDouble(LONGITUD, lon);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,25 +64,51 @@ public class ForecastWeatherFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            mParam1 = getArguments().getDouble(LATITUD);
+            mParam2 = getArguments().getDouble(LONGITUD);
         }
+    }
+
+    public void refrescar(Double v1, Double v2){
+        mParam1 =v1;
+        mParam2 =v2;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_forecast_list, container, false);
+        refrescar(mParam1,mParam2);
+        final RecyclerView recyclerView = (RecyclerView) view;
 
+        OpenWeatherAPI openWeatherAPI = OpenWeatherServiceGenerator.createService(OpenWeatherAPI.class);
+        Call<Forecast> forecast = openWeatherAPI.forecastWeahter(mParam1,mParam2);
+
+        forecast.enqueue(new Callback<Forecast>() {
+            @Override
+            public void onResponse(Call<Forecast> call, Response<Forecast> response) {
+                if (response.isSuccessful()){
+                    pronosticos = response.body();
+
+                    adaptador = new MyForecastRecyclerViewAdapter(pronosticos.getList(), getActivity());
+                    recyclerView.setAdapter(adaptador);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Forecast> call, Throwable t) {
+
+            }
+        });
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyForecastRecyclerViewAdapter(pronosticos, mListener));
         }
         return view;
     }
@@ -77,18 +117,11 @@ public class ForecastWeatherFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     /**

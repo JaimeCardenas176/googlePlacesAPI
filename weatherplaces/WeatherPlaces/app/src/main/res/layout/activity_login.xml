@@ -4,34 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#30cbef"
     tools:context="com.example.jaime.weatherplaces.LoginActivity">
 
-    <TextView
+    <EditText
         android:id="@+id/nombreUsuario"
         android:layout_width="155dp"
-        android:layout_height="34dp"
-        android:layout_marginTop="316dp"
-        android:text="TextView"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:hint="username"
+        android:inputType="text"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.165"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/userImg" />
 
-    <TextView
+    <EditText
         android:id="@+id/email"
-        android:layout_width="147dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
+        android:layout_width="156dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"
         app:layout_constraintStart_toStartOf="@+id/nombreUsuario"
         app:layout_constraintTop_toBottomOf="@+id/nombreUsuario" />
 
-    <TextView
+    <EditText
         android:id="@+id/password"
-        android:layout_width="106dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
+        android:layout_width="156dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"
         app:layout_constraintStart_toStartOf="@+id/email"
         app:layout_constraintTop_toBottomOf="@+id/email" />
 
@@ -39,8 +49,67 @@
         android:id="@+id/buttonRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Button"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        tools:layout_editor_absoluteX="148dp" />
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="28dp"
+        android:onClick="doRegister"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:textColor="#FFFFFF"
+        android:text="Registro"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password" />
+
+    <Button
+        android:id="@+id/buttonLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="28dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:onClick="doLogin"
+        android:text="Login"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonRegister"
+        app:layout_constraintTop_toBottomOf="@+id/password" />
+
+    <ImageView
+        android:id="@+id/userImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="180dp"
+        android:onClick="pickImg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <ImageView
+        android:id="@+id/iconoapp"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_background"
+        tools:ignore="VectorDrawableCompat" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="201dp"
+        android:layout_height="142dp"
+        android:layout_marginTop="28dp"
+        android:fontFamily="sans-serif-condensed"
+        android:lineSpacingExtra="8sp"
+        android:text="The Weather by Jimy"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="#FFFFFF"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/iconoapp"
+        app:layout_constraintTop_toTopOf="@+id/iconoapp" />
 </android.support.constraint.ConstraintLayout>

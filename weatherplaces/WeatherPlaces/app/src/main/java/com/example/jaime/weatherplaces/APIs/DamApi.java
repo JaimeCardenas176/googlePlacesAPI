@@ -6,6 +6,7 @@ import com.example.jaime.weatherplaces.model.damModelsAPI.ResponseUser;
 import com.example.jaime.weatherplaces.model.damModelsAPI.ResponseUserFiles;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -24,9 +25,9 @@ public interface DamApi {
     @FormUrlEncoded
     @POST("auth/register")
     Call<ResponseUser> doRegister(
-            @Field("email") String email,
-            @Field("password") String password,
-            @Part("displayName") String displayName,
+            @Part("email") RequestBody email,
+            @Part("password") RequestBody password,
+            @Part("displayName") RequestBody displayName,
             @Part MultipartBody.Part imagen
     );
     @FormUrlEncoded

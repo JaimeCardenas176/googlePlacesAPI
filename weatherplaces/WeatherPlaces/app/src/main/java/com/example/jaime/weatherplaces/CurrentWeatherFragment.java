@@ -33,9 +33,12 @@ import com.example.jaime.weatherplaces.model.currentWeather.WeatherInfo;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,8 +65,7 @@ public class CurrentWeatherFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     Context ctx;
-    Date fechaActual = new Date();
-
+    Calendar fechaActual = new GregorianCalendar(TimeZone.getTimeZone("Europe/Madrid"));
     private Double latitud, longitud;
 
     //elementos del layout
@@ -141,15 +143,15 @@ public class CurrentWeatherFragment extends Fragment {
                             placeImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
                             if (preRes.getResult().getPhotos() != null) {
-                                if (!preRes.getResult().getPhotos().isEmpty()) {                                                         //ae48797f317a02e51e943fa3961983c7
-                                    String photo_url = String.format("https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&key=AIzaSyAxNJnfgm73CooJFmHnRWSrQwQt-S4RV34&photoreference=%s", preRes.getResult().getPhotos().get(0).getUrlFoto());
+                                if (!preRes.getResult().getPhotos().isEmpty()) {
+                                    String photo_url = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=700&photoreference="+preRes.getResult().getPhotos().get(0).getUrlFoto()+"&key=AIzaSyAxNJnfgm73CooJFmHnRWSrQwQt-S4RV34";
+                                    placeImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
                                     Picasso.with(getContext())
                                             .load(photo_url)
                                             .into(placeImg);
                                 }
 
                             }
-
                                 mListener.actualizaCoord(latitud, longitud);
 
                                 Call<WeatherInfo> callCurrentWeather = openWeatherApi.currentWeahterByCoord(latitud,longitud);
@@ -160,7 +162,7 @@ public class CurrentWeatherFragment extends Fragment {
                                         if (response.isSuccessful()){
                                             WeatherInfo current = response.body();
                                             nombreCiudad.setText(current.getName());
-                                            //fecha.setText(fechaActual.getDate().);
+                                            fecha.setText(String.valueOf(fechaActual.get(Calendar.DAY_OF_MONTH))+"/"+String.valueOf(fechaActual.get(Calendar.MONTH)+1)+"/"+String.valueOf(fechaActual.get(Calendar.YEAR)));
                                             maxima.setText(current.getMain().getTempMax().toString()+"ºC");
                                             minima.setText(current.getMain().getTempMin().toString()+"ºC");
                                             latitudLongitud.setText(current.getWeather().get(0).getDescription());

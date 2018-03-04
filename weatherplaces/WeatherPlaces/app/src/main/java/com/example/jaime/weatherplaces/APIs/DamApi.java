@@ -21,10 +21,11 @@ import retrofit2.http.Part;
 
 public interface DamApi {
     @Multipart
+    @FormUrlEncoded
     @POST("auth/register")
     Call<ResponseUser> doRegister(
-            @Part("email") String email,
-            @Part("password") String password,
+            @Field("email") String email,
+            @Field("password") String password,
             @Part("displayName") String displayName,
             @Part MultipartBody.Part imagen
     );
@@ -38,8 +39,7 @@ public interface DamApi {
     @Multipart
     @POST("files/upload")
     Call<ResponseFile> uploadFile(
-            @Header("Authorization") String auth,
-            @Header("token") String token,
+            @Header("Authorization") String authToken,
             @Part("coords") String coords,
             @Part("title") String title,
             @Part MultipartBody.Part photo
@@ -47,13 +47,11 @@ public interface DamApi {
 
     @GET("files/")
     Call<ResponseAllFiles> allFiles(
-            @Header("Authorization") String auth,
-            @Header("token") String token
+             @Header("Authoriztion")  String authToken
     );
 
     @GET("files/mine")
     Call<ResponseUserFiles> userFiles(
-            @Header("Authorization") String auth,
-            @Header("token") String token
+            @Header("Authoriztion")  String authToken
     );
 }

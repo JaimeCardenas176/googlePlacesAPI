@@ -1,4 +1,4 @@
-package com.example.jaime.weatherplaces.model;
+package com.example.jaime.weatherplaces.model.damModelsAPI;
 
 import android.media.Image;
 
@@ -6,14 +6,14 @@ import android.media.Image;
  * Created by jaime on 02/03/2018.
  */
 
-public class ResponseDam {
+public class ResponseUser {
     private String email;
     private String password;
     private String displayName;
     private Image photo;
     private String token;
 
-    public ResponseDam(String email, String password, String displayName, Image photo, String token) {
+    public ResponseUser(String email, String password, String displayName, Image photo, String token) {
         this.email = email;
         this.password = password;
         this.displayName = displayName;

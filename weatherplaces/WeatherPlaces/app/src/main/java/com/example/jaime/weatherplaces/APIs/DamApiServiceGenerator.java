@@ -20,12 +20,11 @@ public class DamApiServiceGenerator {
           .writeTimeout(30, TimeUnit.SECONDS)
           .build();
 
-    private Retrofit.Builder builder = new Retrofit.Builder()
+    private static Retrofit.Builder builder = new Retrofit.Builder()
             .baseUrl(URL_BASE)
-            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create());
 
-    private Retrofit retrofit = builder.build();
+    private static Retrofit retrofit = builder.build();
 
 
 
@@ -43,6 +42,10 @@ public class DamApiServiceGenerator {
       httpClient.addInterceptor(interceptorBody);
     }
     builder.client(httpClient.build());
+    builder.client(httpClient.connectTimeout(1,TimeUnit.MINUTES)
+            .writeTimeout(1,TimeUnit.MINUTES)
+            .readTimeout(1,TimeUnit.MINUTES)
+            .build());
     retrofit = builder.build();
     return retrofit.create(serviceClass);
   }

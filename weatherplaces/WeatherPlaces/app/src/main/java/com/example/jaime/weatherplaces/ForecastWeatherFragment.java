@@ -37,6 +37,7 @@ public class ForecastWeatherFragment extends Fragment {
     private OnListFragmentInteractionListener mListener;
     private Forecast pronosticos;
     MyForecastRecyclerViewAdapter adaptador;
+    RecyclerView recyclerView;
 
     private Double mParam1;
     private Double mParam2;
@@ -72,14 +73,6 @@ public class ForecastWeatherFragment extends Fragment {
     public void refrescar(Double v1, Double v2){
         mParam1 =v1;
         mParam2 =v2;
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_forecast_list, container, false);
-        refrescar(mParam1,mParam2);
-        final RecyclerView recyclerView = (RecyclerView) view;
 
         OpenWeatherAPI openWeatherAPI = OpenWeatherServiceGenerator.createService(OpenWeatherAPI.class);
         Call<Forecast> forecast = openWeatherAPI.forecastWeahter(mParam1,mParam2);
@@ -100,6 +93,16 @@ public class ForecastWeatherFragment extends Fragment {
 
             }
         });
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_forecast_list, container, false);
+        recyclerView = (RecyclerView) view;
+
+
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -110,6 +113,9 @@ public class ForecastWeatherFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
         }
+
+        refrescar(mParam1,mParam2);
+
         return view;
     }
 

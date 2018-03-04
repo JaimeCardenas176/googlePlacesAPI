@@ -32,7 +32,7 @@ public class GoogleAutoCompleteAdapter extends BaseAdapter implements Filterable
     private List<Prediction> resultlist = new ArrayList<Prediction>();
 
     public GoogleAutoCompleteAdapter(Context mContext){
-
+        this.mContext = mContext;
     }
 
     @Override
@@ -106,7 +106,7 @@ public class GoogleAutoCompleteAdapter extends BaseAdapter implements Filterable
             Response<PredictionResult> response = call.execute();
 
             if (response.isSuccessful()) {
-                if ("todo OK".equalsIgnoreCase(response.body().getStatus()))
+                if ("OK".equalsIgnoreCase(response.body().getStatus()))
                     result = response.body().getPredictions();
             }
 

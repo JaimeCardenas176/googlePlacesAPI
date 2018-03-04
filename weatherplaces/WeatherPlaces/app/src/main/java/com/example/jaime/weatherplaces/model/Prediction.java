@@ -7,14 +7,14 @@ package com.example.jaime.weatherplaces.model;
 public class Prediction {
 
     private String description;
-    private String places_id;
+    private String place_id;
 
-    public String getPlaces_id() {
-        return places_id;
+    public String getPlace_id() {
+        return place_id;
     }
 
-    public void setPlaces_id(String places_id) {
-        this.places_id = places_id;
+    public void setPlace_id(String place_id) {
+        this.place_id = place_id;
     }
 
     public Prediction() {

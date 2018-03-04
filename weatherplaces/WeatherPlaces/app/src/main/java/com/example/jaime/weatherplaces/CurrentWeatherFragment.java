@@ -1,7 +1,6 @@
 package com.example.jaime.weatherplaces;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -20,7 +19,6 @@ import com.example.jaime.weatherplaces.Utilities.DelayAutoCompleteTextView;
 import com.example.jaime.weatherplaces.Utilities.GoogleAutoCompleteAdapter;
 import com.example.jaime.weatherplaces.model.DetailsResult;
 import com.example.jaime.weatherplaces.model.Prediction;
-import com.example.jaime.weatherplaces.model.PredictionResult;
 import com.example.jaime.weatherplaces.model.currentWeather.WeatherInfo;
 import com.squareup.picasso.Picasso;
 
@@ -85,8 +83,6 @@ public class CurrentWeatherFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_current_weather, container, false);
-        autoCompleteTextView = view.findViewById(R.id.delayAutoCompleteTextView);
-        autoCompleteTextView.setAdapter(new GoogleAutoCompleteAdapter(getContext()));
 
         nombreCiudad = view.findViewById(R.id.nombreCiudad);
         fecha = view.findViewById(R.id.fecha);
@@ -101,14 +97,17 @@ public class CurrentWeatherFragment extends Fragment {
 
         final GooglePlacesAPI googlePlacesApi = GooglePlacesServiceGenerator.createService(GooglePlacesAPI.class);
         final OpenWeatherAPI openWeatherApi = OpenWeatherServiceGenerator.createService(OpenWeatherAPI.class);
+        autoCompleteTextView = view.findViewById(R.id.delayAutoCompleteTextView);
+        autoCompleteTextView.setThreshold(4);
+        autoCompleteTextView.setAdapter(new GoogleAutoCompleteAdapter(getContext()));
 
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Prediction prediction = (Prediction) autoCompleteTextView.getAdapter().getItem(i);
-                final Call<DetailsResult> callPlaces = googlePlacesApi.getPlaceDetails(prediction.getPlaces_id());
-                getFragmentManager().beginTransaction().detach(CurrentWeatherFragment.this).attach(CurrentWeatherFragment.this).commit();
+                final Call<DetailsResult> callPlaces = googlePlacesApi.getPlaceDetails(prediction.getPlace_id());
+               // getFragmentManager().beginTransaction().detach(CurrentWeatherFragment.this).attach(CurrentWeatherFragment.this).commit();
                 callPlaces.enqueue(new Callback<DetailsResult>() {
                     @Override
                     public void onResponse(Call<DetailsResult> call, Response<DetailsResult> response) {
@@ -141,6 +140,7 @@ public class CurrentWeatherFragment extends Fragment {
                                             nombreCiudad.setText(current.getName());
                                             maxima.setText(current.getMain().getTempMax().toString()+"ºC");
                                             minima.setText(current.getMain().getTempMin().toString()+"ºC");
+                                            estado.setText(current.getWeather().get(0).toString());
                                             Picasso.with(getContext()).load("http://openweathermap.org/img/w/"+current.getWeather().get(0).getIcon()+ ".png").into(foto);
                                             Log.d("Retrofit OK!", current.toString());
                                         }

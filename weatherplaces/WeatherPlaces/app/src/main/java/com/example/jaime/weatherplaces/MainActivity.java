@@ -92,7 +92,8 @@ public class MainActivity extends AppCompatActivity implements CurrentWeatherFra
     public void actualizaCoord(Double latitud, Double longitud) {
         this.lat = latitud;
         this.lon = longitud;
-
+        if (miFragment instanceof ForecastWeatherFragment)
+            ((ForecastWeatherFragment) miFragment).refrescar(lat, lon);
     }
 
     /**
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements CurrentWeatherFra
                 miFragment = CurrentWeatherFragment.newInstance();
             }
             if(position==1){
-                miFragment = CurrentWeatherFragment.newInstance();
+                miFragment = ForecastWeatherFragment.newInstance(0.0, 0.0);
             }
             return miFragment;
         }

@@ -51,7 +51,7 @@ public class GooglePlacesServiceGenerator {
                     HttpUrl url = urlOriginal.newBuilder()
                             .addQueryParameter("key", "AIzaSyAxNJnfgm73CooJFmHnRWSrQwQt-S4RV34")
                             .addQueryParameter("language","es")
-                            .addQueryParameter("type","(cities)")
+                            //.addQueryParameter("type","(cities)")
                             .build();
                     //montamos url de la petición
                     Request.Builder requestBuilder = original.newBuilder().url(url);

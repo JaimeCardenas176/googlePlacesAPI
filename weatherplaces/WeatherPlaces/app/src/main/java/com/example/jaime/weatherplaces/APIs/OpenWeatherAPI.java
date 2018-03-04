@@ -13,11 +13,11 @@ import retrofit2.http.Query;
  */
 
 public interface OpenWeatherAPI {
-    @GET("data/2.5/weather")
-    public Call<WeatherInfo> currentWeahterByCoord(@Query("lat") Double latitude, @Query("long") Double longitude);
+    @GET("/data/2.5/weather")
+    public Call<WeatherInfo> currentWeahterByCoord(@Query("lat") Double latitude, @Query("lon") Double longitude);
 
-    @GET("data/2.5/forecast")
-    public Call<Forecast> forecastWeahter(@Query("lat") Double latitude, @Query("long") Double longitude);
+    @GET("/data/2.5/forecast")
+    public Call<Forecast> forecastWeahter(@Query("lat") Double latitude, @Query("lon") Double longitude);
 
 
 

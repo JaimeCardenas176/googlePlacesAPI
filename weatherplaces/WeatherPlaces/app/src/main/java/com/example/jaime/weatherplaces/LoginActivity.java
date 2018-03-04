@@ -1,6 +1,7 @@
 package com.example.jaime.weatherplaces;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -64,6 +65,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void doRegister(View view) {
+        final ProgressDialog progressDialog;
+        progressDialog = new ProgressDialog(LoginActivity.this);
+        progressDialog.setMax(100);
+        progressDialog.setMessage("Esto puede tardar unos segundos");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
     if(selected != null) {
         String strfile = FileUtils.getFilePath(LoginActivity.this, selected);
         File file = new File(strfile);
@@ -87,6 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Log.v("Upload", "success");
                     ResponseUser usuario = response.body();
+                    progressDialog.dismiss();
                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
                     i.putExtra("userNAme",usuario.getDisplayName());
                     i.putExtra("userEmail", usuario.getEmail());
@@ -105,11 +113,20 @@ public class LoginActivity extends AppCompatActivity {
 
     public void doLogin(View view) {
         Call<ResponseUser> resp= apiDam.doLogin(email.getText().toString(), password.getText().toString());
+
+        final ProgressDialog progressDialog;
+        progressDialog = new ProgressDialog(LoginActivity.this);
+        progressDialog.setMax(100);
+        progressDialog.setMessage("Esto puede tardar unos segundos");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+
         resp.enqueue(new Callback<ResponseUser>() {
             @Override
             public void onResponse(Call<ResponseUser> call, Response<ResponseUser> response) {
                 if(response.isSuccessful()){
                     ResponseUser usuario = response.body();
+                    progressDialog.dismiss();
                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
                     i.putExtra("userEmail", usuario.getEmail());
                     i.putExtra("userPassword", usuario.getPassword());

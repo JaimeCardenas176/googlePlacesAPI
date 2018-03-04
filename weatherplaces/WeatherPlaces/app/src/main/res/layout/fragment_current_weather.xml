@@ -14,6 +14,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:hint="buscar un lugar"
+        android:textColorHint="#ffffff"
+        android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,6 +27,8 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:text="Sevilla"
+        android:textSize="20sp"
+        android:textColor="#ffffff"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/delayAutoCompleteTextView" />
@@ -35,6 +39,7 @@
         android:layout_height="22dp"
         android:layout_marginStart="24dp"
         android:text="25/02/2018"
+        android:textColor="#ffffff"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintStart_toEndOf="@+id/nombreCiudad"
         app:layout_constraintTop_toTopOf="@+id/nombreCiudad" />
@@ -45,6 +50,7 @@
         android:layout_height="22dp"
         android:layout_marginStart="24dp"
         android:text="nublado"
+        android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="@+id/nombreCiudad"
         app:layout_constraintStart_toEndOf="@+id/nombreCiudad"
         app:layout_constraintTop_toBottomOf="@+id/fecha" />
@@ -64,6 +70,7 @@
         android:layout_height="27dp"
         android:text="latitud 122345  longitud 123456"
         app:layout_constraintEnd_toEndOf="@+id/estado"
+        android:textColor="#ffffff"
         app:layout_constraintStart_toStartOf="@+id/nombreCiudad"
         app:layout_constraintTop_toBottomOf="@+id/nombreCiudad" />
 
@@ -90,6 +97,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
         android:text="Maxima:"
+        android:textColor="#ffffff"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/iconMax"
@@ -100,6 +108,7 @@
         android:layout_width="80dp"
         android:layout_height="60dp"
         android:text="Mínima:"
+        android:textColor="#ffffff"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/iconMin"
@@ -123,6 +132,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:textAlignment="textEnd"
+        android:textColor="#ffffff"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/humidityIcon"

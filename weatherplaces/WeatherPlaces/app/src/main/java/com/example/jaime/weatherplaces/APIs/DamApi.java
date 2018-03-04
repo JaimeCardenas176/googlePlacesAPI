@@ -42,7 +42,7 @@ public interface DamApi {
             @Header("Authorization") String authToken,
             @Part("coords") String coords,
             @Part("title") String title,
-            @Part MultipartBody.Part photo
+            @Part MultipartBody.Part imagen
     );
 
     @GET("files/")

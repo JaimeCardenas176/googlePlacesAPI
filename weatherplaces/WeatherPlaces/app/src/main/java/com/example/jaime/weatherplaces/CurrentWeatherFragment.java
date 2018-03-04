@@ -1,7 +1,16 @@
 package com.example.jaime.weatherplaces;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jaime.weatherplaces.APIs.GooglePlacesAPI;
 import com.example.jaime.weatherplaces.APIs.GooglePlacesServiceGenerator;
@@ -22,9 +32,16 @@ import com.example.jaime.weatherplaces.model.Prediction;
 import com.example.jaime.weatherplaces.model.currentWeather.WeatherInfo;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -44,19 +61,20 @@ public class CurrentWeatherFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    Context ctx;
+    Date fechaActual = new Date();
 
     private Double latitud, longitud;
 
     //elementos del layout
-    private TextView nombreCiudad, fecha, estado, latitudLongitud, maxima, minima;
-    private ImageView foto, iconMax, iconMin;
+    private TextView nombreCiudad, fecha, estado, latitudLongitud, maxima, minima, humedadContent;
+    private ImageView foto, placeImg;
     private DelayAutoCompleteTextView autoCompleteTextView;
 
 
     private OnFragmentInteractionListener mListener;
 
-    public static CurrentWeatherFragment newInstance(){
+    public static CurrentWeatherFragment newInstance() {
         CurrentWeatherFragment fragment = new CurrentWeatherFragment();
         return fragment;
 
@@ -68,7 +86,6 @@ public class CurrentWeatherFragment extends Fragment {
     }
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +95,7 @@ public class CurrentWeatherFragment extends Fragment {
         }
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -88,18 +106,22 @@ public class CurrentWeatherFragment extends Fragment {
         fecha = view.findViewById(R.id.fecha);
         estado = view.findViewById(R.id.estado);
         latitudLongitud = view.findViewById(R.id.latitudLongitud);
-
+        humedadContent = view.findViewById(R.id.humedadContent);
         foto = view.findViewById(R.id.foto);
-        iconMax = view.findViewById(R.id.iconMax);
-        iconMin = view.findViewById(R.id.iconMin);
+        placeImg = view.findViewById(R.id.placeImg);
         maxima = view.findViewById(R.id.maxima);
         minima = view.findViewById(R.id.minima);
 
         final GooglePlacesAPI googlePlacesApi = GooglePlacesServiceGenerator.createService(GooglePlacesAPI.class);
         final OpenWeatherAPI openWeatherApi = OpenWeatherServiceGenerator.createService(OpenWeatherAPI.class);
         autoCompleteTextView = view.findViewById(R.id.delayAutoCompleteTextView);
-        autoCompleteTextView.setThreshold(4);
+        autoCompleteTextView.setThreshold(3);
         autoCompleteTextView.setAdapter(new GoogleAutoCompleteAdapter(getContext()));
+
+        //calculando la posicion gps para cargar unos detalles predeterminados al inicar la app
+        LocationManager locationManager;
+        ctx = getContext();
+        locationManager = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
 
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -115,18 +137,18 @@ public class CurrentWeatherFragment extends Fragment {
                             DetailsResult preRes = response.body();
                             latitud = preRes.getResult().getGeometry().getLocation().getLat();
                             longitud = preRes.getResult().getGeometry().getLocation().getLng();
-                            latitudLongitud.setText(String.format("%f, %f",latitud, longitud));
+                            estado.setText(String.format("%f, %f",latitud, longitud));
+                            placeImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-
-                           /* if (preRes.getResult().getPhotos() != null) {
-                                if (!preRes.getResult().getPhotos().isEmpty()) {
-                                    String photo_url = String.format("https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&key=ae48797f317a02e51e943fa3961983c7&photoreference=%s", preRes.getResult().getPhotos().get(0).getUrlFoto());
+                            if (preRes.getResult().getPhotos() != null) {
+                                if (!preRes.getResult().getPhotos().isEmpty()) {                                                         //ae48797f317a02e51e943fa3961983c7
+                                    String photo_url = String.format("https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&key=AIzaSyAxNJnfgm73CooJFmHnRWSrQwQt-S4RV34&photoreference=%s", preRes.getResult().getPhotos().get(0).getUrlFoto());
                                     Picasso.with(getContext())
                                             .load(photo_url)
-                                            .into(foto);
+                                            .into(placeImg);
                                 }
 
-                            }*/
+                            }
 
                                 mListener.actualizaCoord(latitud, longitud);
 
@@ -138,9 +160,12 @@ public class CurrentWeatherFragment extends Fragment {
                                         if (response.isSuccessful()){
                                             WeatherInfo current = response.body();
                                             nombreCiudad.setText(current.getName());
+                                            //fecha.setText(fechaActual.getDate().);
                                             maxima.setText(current.getMain().getTempMax().toString()+"ºC");
                                             minima.setText(current.getMain().getTempMin().toString()+"ºC");
-                                            estado.setText(current.getWeather().get(0).toString());
+                                            latitudLongitud.setText(current.getWeather().get(0).getDescription());
+                                            humedadContent.setText(current.getMain().getHumidity().toString()+"%");
+
                                             Picasso.with(getContext()).load("http://openweathermap.org/img/w/"+current.getWeather().get(0).getIcon()+ ".png").into(foto);
                                             Log.d("Retrofit OK!", current.toString());
                                         }

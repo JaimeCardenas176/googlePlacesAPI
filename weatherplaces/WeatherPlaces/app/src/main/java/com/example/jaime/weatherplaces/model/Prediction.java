@@ -46,8 +46,6 @@ public class Prediction {
 
     @Override
     public String toString() {
-        return "Prediction{" +
-                "description='" + description + '\'' +
-                '}';
+        return  description;
     }
 }

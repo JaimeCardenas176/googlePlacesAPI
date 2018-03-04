@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.jaime.weatherplaces.APIs.OpenWeatherAPI;
 import com.example.jaime.weatherplaces.APIs.OpenWeatherServiceGenerator;
@@ -38,7 +40,6 @@ public class ForecastWeatherFragment extends Fragment {
     private Forecast pronosticos;
     MyForecastRecyclerViewAdapter adaptador;
     RecyclerView recyclerView;
-
     private Double mParam1;
     private Double mParam2;
 

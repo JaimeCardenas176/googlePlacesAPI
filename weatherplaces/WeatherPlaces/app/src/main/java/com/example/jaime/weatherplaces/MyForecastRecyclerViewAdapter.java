@@ -37,13 +37,12 @@ public class MyForecastRecyclerViewAdapter extends RecyclerView.Adapter<MyForeca
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.fechaF.setText(holder.mItem.getDtTxt());
+        holder.estadoF.setText(holder.mItem.getWeather().get(0).getDescription().toString());
         Picasso.with(context)
-                .load("http://openweathremap.org/img/w"+holder.mItem.getWeather().get(0).getIcon()+".png")
-        .resize(800,800)
-        .centerCrop()
+                .load("http://openweathermap.org/img/w/"+holder.mItem.getWeather().get(0).getIcon()+".png")
         .into(holder.fotoF);
 
-        holder.humedadF.setText(String.valueOf(holder.mItem.getMain().getHumidity()+"% humedad"));
+        holder.humedadF.setText(String.valueOf(holder.mItem.getMain().getHumidity()+"%"));
         holder.maximaF.setText(holder.mItem.getMain().getTempMax().toString());
         holder.minimaF.setText(holder.mItem.getMain().getTempMin().toString());
 
@@ -56,8 +55,8 @@ public class MyForecastRecyclerViewAdapter extends RecyclerView.Adapter<MyForeca
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView fechaF, maximaF, minimaF, humedadF;
-        public final ImageView fotoF, iconMaxF, iconMinF;
+        public final TextView fechaF, maximaF, minimaF, humedadF, estadoF;
+        public final ImageView fotoF;
         public com.example.jaime.weatherplaces.model.forecastWeather.List mItem;
 
         public ViewHolder(View view) {
@@ -67,9 +66,8 @@ public class MyForecastRecyclerViewAdapter extends RecyclerView.Adapter<MyForeca
             maximaF = view.findViewById(R.id.maximaForecast);
             minimaF = view.findViewById(R.id.minimaForecast);
             humedadF = view.findViewById(R.id.humedad);
+            estadoF = view.findViewById(R.id.estadoF);
             fotoF=view.findViewById(R.id.fotoForecast);
-            iconMaxF = view.findViewById(R.id.iconMaxForecast);
-            iconMinF = view.findViewById(R.id.iconMinforecast);
 
 
         }

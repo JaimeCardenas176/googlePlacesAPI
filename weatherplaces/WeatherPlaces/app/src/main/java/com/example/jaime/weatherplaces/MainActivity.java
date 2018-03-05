@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements CurrentWeatherFra
                 }
                 if(position==1){
                     ForecastWeatherFragment fragment = (ForecastWeatherFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, position);
-
+                    //comentando algo para que haya cambios
 
                     fragment.refrescar(,);
                 }

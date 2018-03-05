@@ -98,7 +98,6 @@ public class CurrentWeatherFragment extends Fragment {
         }
     }
 
-    @SuppressLint("MissingPermission")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -122,9 +121,53 @@ public class CurrentWeatherFragment extends Fragment {
         autoCompleteTextView.setAdapter(new GoogleAutoCompleteAdapter(getContext()));
 
         //calculando la posicion gps para cargar unos detalles predeterminados al inicar la app
-        LocationManager locationManager;
-        ctx = getContext();
-        locationManager = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
+        /*LocationManager locationManager = (LocationManager) ctx.getSystemService(ctx.LOCATION_SERVICE);
+
+
+        // Define a listener that responds to location updates
+        LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                // Called when a new location is found by the network location provider.
+
+            }
+
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+            public void onProviderEnabled(String provider) {}
+
+            public void onProviderDisabled(String provider) {}
+        };
+
+        // Register the listener with the Location Manager to receive location updates
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1800000, 100, locationListener);
+        Location lastKnownLocation = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
+        Double latitudPredeterminada =lastKnownLocation.getLatitude();
+        Double longitudPredeterminada =lastKnownLocation.getLongitude();
+
+        final Call<WeatherInfo> predeterminada = openWeatherApi.currentWeahterByCoord(latitudPredeterminada,longitudPredeterminada);
+        predeterminada.enqueue(new Callback<WeatherInfo>() {
+            @Override
+            public void onResponse(Call<WeatherInfo> call, Response<WeatherInfo> response) {
+                if (response.isSuccessful()){
+                    WeatherInfo current = response.body();
+                    nombreCiudad.setText(current.getName());
+                    fecha.setText(String.valueOf(fechaActual.get(Calendar.DAY_OF_MONTH))+"/"+String.valueOf(fechaActual.get(Calendar.MONTH)+1)+"/"+String.valueOf(fechaActual.get(Calendar.YEAR)));
+                    maxima.setText(current.getMain().getTempMax().toString()+"ºC");
+                    minima.setText(current.getMain().getTempMin().toString()+"ºC");
+                    latitudLongitud.setText(current.getWeather().get(0).getDescription());
+                    humedadContent.setText(current.getMain().getHumidity().toString()+"%");
+
+                    Picasso.with(getContext()).load("http://openweathermap.org/img/w/"+current.getWeather().get(0).getIcon()+ ".png").into(foto);
+                    Log.d("Retrofit OK!", current.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WeatherInfo> call, Throwable t) {
+
+
+            }
+        });*/
 
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

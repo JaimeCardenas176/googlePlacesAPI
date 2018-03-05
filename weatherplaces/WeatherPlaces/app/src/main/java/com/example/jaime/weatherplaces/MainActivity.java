@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements CurrentWeatherFra
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private Double lat, lon;
-    SharedPreferences pref = getPreferences(MODE_PRIVATE);
+    SharedPreferences pref;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements CurrentWeatherFra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        pref = getPreferences(MODE_PRIVATE);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -79,8 +79,9 @@ public class MainActivity extends AppCompatActivity implements CurrentWeatherFra
                 if(position==1){
                     ForecastWeatherFragment fragment = (ForecastWeatherFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, position);
                     //comentando algo para que haya cambios
-
-                    fragment.refrescar(,);
+                    Double dlat= Double.valueOf(String.valueOf(pref.getFloat("lati", 0.0f)));
+                    Double dlon= Double.valueOf(String.valueOf(pref.getFloat("longi", 0.0f)));
+                    fragment.refrescar(dlat,dlon);
                 }
             }
 

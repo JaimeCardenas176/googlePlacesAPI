@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ import retrofit2.Response;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class ForecastWeatherFragment extends Fragment {
+public class ForecastWeatherFragment extends Fragment{
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -91,7 +92,7 @@ public class ForecastWeatherFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Forecast> call, Throwable t) {
-
+                Log.i("onFailure",t.toString());
             }
         });
 

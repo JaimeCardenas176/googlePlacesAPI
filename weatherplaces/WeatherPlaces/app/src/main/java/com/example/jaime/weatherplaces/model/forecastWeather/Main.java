@@ -29,7 +29,7 @@ public class Main {
     private Long humidity;
     @SerializedName("temp_kf")
     @Expose
-    private Long tempKf;
+    private Double tempKf;
 
     /**
      * No args constructor for use in serialization
@@ -49,7 +49,7 @@ public class Main {
      * @param tempKf
      * @param tempMin
      */
-    public Main(Double temp, Double tempMin, Double tempMax, Double pressure, Double seaLevel, Double grndLevel, Long humidity, Long tempKf) {
+    public Main(Double temp, Double tempMin, Double tempMax, Double pressure, Double seaLevel, Double grndLevel, Long humidity, Double tempKf) {
         super();
         this.temp = temp;
         this.tempMin = tempMin;
@@ -117,11 +117,11 @@ public class Main {
         this.humidity = humidity;
     }
 
-    public Long getTempKf() {
+    public Double getTempKf() {
         return tempKf;
     }
 
-    public void setTempKf(Long tempKf) {
+    public void setTempKf(Double tempKf) {
         this.tempKf = tempKf;
     }
 

@@ -3,6 +3,7 @@ package com.example.jaime.weatherplaces;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -139,13 +140,18 @@ public class CurrentWeatherFragment extends Fragment {
                             DetailsResult preRes = response.body();
                             latitud = preRes.getResult().getGeometry().getLocation().getLat();
                             longitud = preRes.getResult().getGeometry().getLocation().getLng();
+                            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.putFloat("longi", Float.valueOf(String.valueOf(longitud)));
+                            editor.putFloat("lati", Float.valueOf(String.valueOf(latitud)));
+                            editor.commit();
+
                             estado.setText(String.format("%f, %f",latitud, longitud));
                             placeImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
                             if (preRes.getResult().getPhotos() != null) {
                                 if (!preRes.getResult().getPhotos().isEmpty()) {
-                                    String photo_url = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=700&photoreference="+preRes.getResult().getPhotos().get(0).getUrlFoto()+"&key=AIzaSyAxNJnfgm73CooJFmHnRWSrQwQt-S4RV34";
-                                    placeImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                                    String photo_url = String.format("https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&key=AIzaSyAxNJnfgm73CooJFmHnRWSrQwQt-S4RV34&photoreference=%s", preRes.getResult().getPhotos().get(0).getUrlFoto());                                    placeImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
                                     Picasso.with(getContext())
                                             .load(photo_url)
                                             .into(placeImg);

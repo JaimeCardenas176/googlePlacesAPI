@@ -1,5 +1,7 @@
 package com.example.jaime.weatherplaces;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements CurrentWeatherFra
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private Double lat, lon;
-
+    SharedPreferences pref = getPreferences(MODE_PRIVATE);
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -60,6 +62,31 @@ public class MainActivity extends AppCompatActivity implements CurrentWeatherFra
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+            }
+        });
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position==0){
+                    CurrentWeatherFragment fragment = (CurrentWeatherFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, position);
+                }
+                if(position==1){
+                    ForecastWeatherFragment fragment = (ForecastWeatherFragment) mSectionsPagerAdapter.instantiateItem(mViewPager, position);
+
+
+                    fragment.refrescar(,);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
 
